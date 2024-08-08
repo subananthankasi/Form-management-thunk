@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.box{
+    width: 350px;
+    height: 550px;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+    
+}
+.loginContainer{
+background-image: url("../src/Assets/light-website-backgrounds-light-color-background-images-light-color-background-images-for-website-1024x640.webp");
+ background-size: cover;
+ height: 100vh;
+ background-position: center;
+ display: flex;
+}
+input{
+    width: 100%;
+}
+.loginButton{
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: blue;
+    padding: 7px;
+    color: white;
+    font-weight: 600;
+}
+img{
+    width: 70px;
+    height: 70px;
+}
+.title{
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+}

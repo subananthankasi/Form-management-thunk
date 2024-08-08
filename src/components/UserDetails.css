@@ -1,0 +1,50 @@
+.readContainer {
+    padding: 20px;
+  }
+  
+  .user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; 
+  }
+  
+  .user p {
+    margin: 0; 
+    font-weight: 500;
+  }
+  
+  .user button {
+    margin-left: auto; 
+  }
+  .newUser{
+    padding: 5px;
+    border-radius: 7px;
+    border: none;
+    background-color: green;
+    color: white;
+  }
+  .editIcon{
+    border: none;
+    background-color: white;
+  }
+  .deleteIcon{
+    border: none;
+    background-color: white;
+  }
+
+.loading{
+  display: flex;
+  justify-content: center;
+}
+.img{
+  width: 400px;
+  height: 400px;
+}
+.Logout{
+  padding: 5px;
+  border-radius: 7px;
+  border: none;
+  background-color: blue;
+  color: white;
+}
