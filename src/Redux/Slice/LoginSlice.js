@@ -9,7 +9,7 @@ const LoginSlice = createSlice({
         error:null
     },
     extraReducers(builder){
-        builder.addCase(LoginThunk.pending ,(state,action)=>{
+        builder.addCase(LoginThunk.pending ,(state)=>{
             state.loading = true
         });
         builder.addCase(LoginThunk.fulfilled ,(state,action)=>{

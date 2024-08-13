@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { userDetailsThunk } from "../Thunk/UserDetailsThunk";
 
 const userDetailsSlice = createSlice({
-    name:'get',
+    name:'userGet',
     initialState : {
         loading:false,
         data:{},
         error:null
     },
     extraReducers(builder){
-        builder.addCase(userDetailsThunk.pending ,(state,action)=>{
+        builder.addCase(userDetailsThunk.pending ,(state)=>{
             state.loading = true
         });
         builder.addCase(userDetailsThunk.fulfilled ,(state,action)=>{

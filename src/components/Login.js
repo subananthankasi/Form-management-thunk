@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const initialValues = {
         userName: "",
         password: "",
@@ -20,32 +21,38 @@ const Login = () => {
         password: yup.string().required("*required!!"),
     });
 
-    const toastLogin = useSelector((state) => state.loginData);
+    const toastLogin = useSelector((state) => state.loginData?.data?.data?.message);
     console.log("toastLogin", toastLogin);
 
+    // const loading = useSelector(state => state.loginData.loading);
+    // console.log('loading', loading);
+
     const onSubmit = async (values) => {
+
         try {
             const resultAction = await dispatch(LoginThunk(values));
             console.log("resultAction", resultAction);
 
             if (LoginThunk.fulfilled.match(resultAction)) {
-                const { message } = resultAction.payload.data;
-                toast.success(message, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                    transition: Bounce,
-                });
-
+                const logintoast = resultAction.payload.data.message
+                console.log('logintoast', logintoast)
+                navigate("/userDetails");
                 setTimeout(() => {
-                    navigate("/userDetails");
-                }, 2000);
-            } else if (LoginThunk.rejected.match(resultAction)) {
+                    toast.success(logintoast, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        transition: Bounce,
+                    });
+                }, 1000)
+
+            }
+            else if (LoginThunk.rejected.match(resultAction)) {
                 const errorPayload = resultAction.payload.error.message;
                 console.log("errorPayload", errorPayload);
                 toast.error(errorPayload, {
@@ -75,6 +82,8 @@ const Login = () => {
         }
     };
 
+
+
     const data = useSelector((state) => state.loginData);
     console.log("data", data);
 
@@ -103,8 +112,11 @@ const Login = () => {
 
     return (
         <div className="d-flex Container loginContainer" style={{ justifyContent: "center" }}>
+
+
             <ToastContainer />
             <form onSubmit={formik.handleSubmit}>
+
                 <div className="box mt-5 ">
                     <div style={{ textAlign: "center" }}>
                         <img src={logo} alt="LoginImg" />
@@ -123,13 +135,12 @@ const Login = () => {
                             onBlur={formik.handleBlur}
                         />
                     </div>
+
                     {formik.errors.userName && formik.touched.userName ? (
                         <p style={{ color: "red" }}>{formik.errors.userName}</p>
                     ) : null}
-                    <div>
-                        <label htmlFor="Password" className="mt-3">
-                            Password :
-                        </label>
+                    <div className="input-box">
+
                         <input
                             type="password"
                             name="password"
@@ -151,11 +162,15 @@ const Login = () => {
                             Log In
                         </button>
                     </div>
+
+
                     <div className="mt-3" style={{ textAlign: "center", color: "gray" }}>
                         <p>© Ebrain Technologies</p>
                     </div>
                 </div>
             </form>
+
+
         </div>
     );
 };

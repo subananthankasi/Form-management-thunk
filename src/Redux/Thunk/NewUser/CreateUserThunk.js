@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_URL ='http://101.53.155.156:8089/api/user/create'
-export const createUserThunk = createAsyncThunk('LoginThunk/data',
+export const createUserThunk = createAsyncThunk('createUserThunk/data',
     async ({ fullName, email, phoneNo, address, userName, password, userRoleId }, { rejectWithValue }) => {
         const auth_Token = "BslogiKey" + " " + localStorage.getItem("auth_token");
         try {

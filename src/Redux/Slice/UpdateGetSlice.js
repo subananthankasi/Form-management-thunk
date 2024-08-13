@@ -3,14 +3,14 @@ import { updateGetThunk } from "../Thunk/UpdateThunk";
 
 
 const updateGetSlice = createSlice({
-    name:'create',
+    name:'updateGet',
     initialState : {
         loading:false,
         data:{},
         error:null
     },
     extraReducers(builder){
-        builder.addCase(updateGetThunk.pending ,(state,action)=>{
+        builder.addCase(updateGetThunk.pending ,(state)=>{
             state.loading = true
         });
         builder.addCase(updateGetThunk.fulfilled ,(state,action)=>{

@@ -17,3 +17,28 @@
   .form-control {
     margin-top: 5px;
   }
+  .breadcrumb {
+  float:right;
+  display: flex;
+  align-items: center;
+  margin-right: 18px;
+}
+
+.breadcrumb-item {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.breadcrumb-item:hover {
+  color: blue;
+}
+
+.breadcrumb-item.active {
+  color: blue; 
+  font-weight: 600; 
+}

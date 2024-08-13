@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./NewUser.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -15,13 +15,10 @@ const UpdateUser = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation();
-    const [isUpdated, setIsUpdated] = useState(false);
+
 
     const userToUpdate = location.state?.user;
-    console.log('userToUpdate', userToUpdate)
-
-    const updateToast = useSelector((state) => state.update?.data?.data)
-    console.log('updateToast', updateToast)
+    // console.log('userToUpdate', userToUpdate)
 
 
     const formik = useFormik({
@@ -52,37 +49,33 @@ const UpdateUser = () => {
                 userRoleId: values.userRoleId,
                 id: userToUpdate.id
             }
-            console.log('values', values)
+            // console.log('values', values)
             dispatch(updateThunk(payload))
                 .then(() => {
-                    setIsUpdated(true);
-
+                    // setIsUpdated(true);
+                    navigate('/userDetails');
+                    setTimeout(() => {
+                    toast.success('User Update Successfully', {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        transition: Bounce,
+                    });
+                            
+            }, 1000);
                 });
         }
     });
-    useEffect(() => {
-        if (isUpdated && updateToast) {
-            toast.success(`${updateToast}`, {
-                position: "top-right",
-                autoClose: 4000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-                transition: Bounce,
-            });
-            setTimeout(() => {
-                navigate('/userDetails');
-            }, 500);
-        }
-    }, [updateToast, isUpdated]);
 
     useEffect(() => {
         dispatch(selectRoleThunk())
         dispatch(updateGetThunk(userToUpdate))
-    }, [])
+    }, [dispatch])
 
     const role = useSelector((state) => state.selectRole?.data)
     const roleResponse = role?.data
@@ -92,8 +85,22 @@ const UpdateUser = () => {
     return (
         <div className="userContainer p-5">
             <ToastContainer />
-            <div>
-                <p style={{ fontWeight: '500' }}>USER</p>
+            <div className="d-flex" style={{ justifyContent: 'space-between' }}>
+                {/* <p style={{ fontWeight: '500' }}>USER</p> */}
+                <h5>USER</h5>
+                <div className="breadcrumb">
+                    <span className={`breadcrumb-item ${location.pathname === "/userDetails" ? "active" : ""}`} onClick={() => navigate("/userDetails")}>
+                        HOME
+                    </span>
+                    <span style={{padding:'10px', fontSize:'13px'}}> / </span>
+                    <span className={`breadcrumb-item ${location.pathname === "/userDetails" ? "active" : ""}`} onClick={() => navigate("/userDetails")}>
+                        USERS
+                    </span>
+                    <span style={{padding:'10px', fontSize:'13px'}}> / </span>
+                    <span className={`breadcrumb-item ${location.pathname === "/newUser"||"updateUser" ? "active" : ""}`} >
+                        DETAILS
+                    </span>
+                </div>
             </div>
             <form onSubmit={formik.handleSubmit}>
 

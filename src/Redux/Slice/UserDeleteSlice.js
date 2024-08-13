@@ -9,7 +9,7 @@ const userDeleteSlice = createSlice({
         error:null
     },
     extraReducers(builder){
-        builder.addCase(userDeleteThunk.pending ,(state,action)=>{
+        builder.addCase(userDeleteThunk.pending ,(state)=>{
             state.loading = true
         });
         builder.addCase(userDeleteThunk.fulfilled ,(state,action)=>{

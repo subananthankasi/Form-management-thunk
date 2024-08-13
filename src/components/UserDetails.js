@@ -10,30 +10,54 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
 import { toast, ToastContainer, Bounce } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import spin from '../../../thunk/src/Assets/Animation - 1722514395569.gif';
+// import spin from '../../../thunk/src/Assets/Animation - 1722514395569.gif';
+import Dot from '../../../thunk/src/Assets/bNQ1SXQXtU.gif';
+
+
 
 const Read = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDeleted, setIsDeleted] = useState(false);
 
+ 
   const response = useSelector((state) => state.userData?.data);
   const responseData = response ? response.data : [];
-  console.log('responseData', responseData);
 
-  const loading = useSelector(state => state.userData.loading);
-  console.log('loading', loading);
+//........LOADING.....................
+  const newUserLoading = useSelector(state => state.loginData.loading);
+  console.log('newUserLoading',newUserLoading)
 
-  const deleteResponse = useSelector((state) => state.deleteData?.data?.data);
-  console.log('deleteResponse', deleteResponse);
+  const userDetailsLoading = useSelector(state => state.userData.loading);
+  console.log('userDetailsLoading', userDetailsLoading);
+  
+  const userDeleteLoading =  useSelector(state => state.deleteData.loading);
+  console.log('userDeleteLoading', userDeleteLoading);
+
+  const userUpdateLoading = useSelector(state => state.update.loading);
+  console.log('userUpdateLoading', userUpdateLoading);
+//........................................................................
+
+
+ 
 
   useEffect(() => {
     dispatch(userDetailsThunk());
-  }, [dispatch]);
+  }, []);
+  // const apiCalled = useRef(false);
+  // useEffect(() => {
+  //   if (!apiCalled.current) {
+  //     dispatch(userDetailsThunk());
+  //     apiCalled.current = true;
+  //   }
+  // }, []);
+
+
+  const deleteResponse = useSelector((state) => state.deleteData?.data?.data);
 
   useEffect(() => {
     if (isDeleted && deleteResponse) {
-      toast.success(`${deleteResponse}`, {
+      toast.success('User Delete Successfully', { //deleteResponse
         position: "top-right",
         autoClose: 4000,  
         hideProgressBar: true,
@@ -54,11 +78,11 @@ const Read = () => {
 
   const editUser = (item) => {
     navigate('/updateUser', { state: { user: item } });
-    console.log('item', item);
+    // console.log('item', item);
   };
 
   const deleteUser = (id) => {
-    console.log('deleteUser id', id);
+    // console.log('deleteUser id', id);
     dispatch(userDeleteThunk(id)).then(() => {
       dispatch(userDetailsThunk());
       setIsDeleted(true);
@@ -93,7 +117,7 @@ const Read = () => {
   };
 
   const saveToken = localStorage.getItem('auth_token');
-  console.log('saveToken', saveToken);
+  // console.log('saveToken', saveToken);
   useEffect(() => {
     if (!saveToken) {
       window.location.href = '/';
@@ -106,22 +130,25 @@ const Read = () => {
   };
 
   return (
-    <>
+  
+  <>
       {
-        loading ? (
-          <div className='loading'>
-            <img src={spin} className='img' alt="Loading" />
-          </div>
-        ) : (
+        userDetailsLoading ||newUserLoading || userDeleteLoading || userUpdateLoading ? (
+           <div className='loading'>
+            <img src={Dot} className='img' alt="Loading" />
+         
+           </div>
+        
+        ) : ( 
           <div className='readContainer'>
             <div className='user'>
-              <p>USER</p>
+              <h5>USER</h5>
               <button className='newUser' onClick={newUser}>
                 <i className="fa-solid fa-plus"></i> NewUser
               </button>
-              <span style={{ marginLeft: '5px' }}>
-                <button className='Logout' onClick={logoutPage}>
-                  <b>Logout</b>
+              <span style={{ marginLeft: '10px' }}>
+                <button className='Logout' onClick={logoutPage} style={{paddingRight:'5px'}}>
+                  <i class="fa-solid fa-arrow-right-from-bracket" style={{paddingLeft:'5px'}} ></i> Logout
                 </button>
               </span>
             </div>
@@ -161,8 +188,8 @@ const Read = () => {
               </table>
             </div>
           </div>
-        )
-      }
+         )
+      } 
       <ToastContainer />
     </>
   );

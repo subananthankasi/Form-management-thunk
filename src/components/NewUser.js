@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./NewUser.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectRoleThunk } from "../Redux/Thunk/NewUser/SelectRoleThunk";
 import { createUserThunk } from "../Redux/Thunk/NewUser/CreateUserThunk";
@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const NewUser = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const location = useLocation();
 
     const initialValues = {
         fullName: '',
@@ -40,29 +40,30 @@ const NewUser = () => {
     const onSubmit = async (values) => {
         try {
             const resultAction = await dispatch(createUserThunk(values));
-            console.log("resultAction", resultAction);
+            // console.log("resultAction", resultAction);
 
             if (createUserThunk.fulfilled.match(resultAction)) {
-                const message = resultAction.payload.data;
-                console.log('message', message)
-                toast.success(message, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                    transition: Bounce,
-                });
+                // const message = resultAction.payload.data;
+                // console.log('message', message)
+                navigate("/userDetails");
 
                 setTimeout(() => {
-                    navigate("/userDetails");
-                }, 500);
+                    toast.success('User Created Successfully', {
+                        position: "top-right",
+                        autoClose: 4000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        transition: Bounce,
+                    });
+
+                }, 800);
             } else if (createUserThunk.rejected.match(resultAction)) {
                 const errorPayload = resultAction.payload.error.reason;
-                console.log("errorPayload", errorPayload);
+                // console.log("errorPayload", errorPayload);
                 toast.error(errorPayload, {
                     position: "top-right",
                     autoClose: 2000,
@@ -106,8 +107,22 @@ const NewUser = () => {
     return (
         <div className="userContainer p-5">
             <ToastContainer />
-            <div>
-                <p style={{ fontWeight: '500' }}>USER</p>
+            <div className="d-flex" style={{ justifyContent: 'space-between' }}>
+                {/* <p style={{ fontWeight: '500' }}>USER</p> */}
+                <h5>USER</h5>
+                <div className="breadcrumb">
+                    <span className={`breadcrumb-item ${location.pathname === "/userDetails" ? "active" : ""}`} onClick={() => navigate("/userDetails")}>
+                        HOME
+                    </span>
+                    <span style={{ padding: '10px', fontSize: '13px' }}> / </span>
+                    <span className={`breadcrumb-item ${location.pathname === "/userDetails" ? "active" : ""}`} onClick={() => navigate("/userDetails")}>
+                        USERS
+                    </span>
+                    <span style={{ padding: '10px', fontSize: '13px' }}> / </span>
+                    <span className={`breadcrumb-item ${location.pathname === "/newUser" ? "active" : ""}`} >
+                        DETAILS
+                    </span>
+                </div>
             </div>
             <form onSubmit={formik.handleSubmit}>
                 <div className="row gap-3 ">
